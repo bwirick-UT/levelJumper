@@ -9,22 +9,18 @@ const gravity = 0.6;
 let player = {
   x: 80,
   y: 0,
-  width: 20,
-  height: 20,
+  width: 40,
+  height: 40,
   vy: 0,
   jumping: false
 };
 
 let groundY = canvas.height - 40;
 
-let obstacle = {
-  x: canvas.width,
-  y: groundY - 20,
-  width: 20,
-  height: 20
-};
+let obstacles = [];
+let nextObstacleSpawn = 120;
 
-let gameSpeed = 4;
+let gameSpeed = 5;
 let score = 0;
 let gameOver = false;
 
@@ -51,13 +47,24 @@ document.addEventListener("keyup", e => {
 // RESET GAME
 // ====================
 
+function spawnObstacle() {
+  const type = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+  obstacles.push({
+    x: canvas.width,
+    y: groundY - 35,
+    width: type * 35,
+    height: 35,
+    type: type
+  });
+}
+
 function resetGame() {
   player.y = groundY - player.height;
   player.vy = 0;
   player.jumping = false;
 
-  obstacle.x = canvas.width;
-  gameSpeed = 4;
+  obstacles = [];
+  nextObstacleSpawn = 120;
   score = 0;
   gameOver = false;
 }
@@ -89,26 +96,36 @@ function update() {
     player.jumping = false;
   }
 
-  // Move obstacle (WORLD MOVES LEFT)
-  obstacle.x -= gameSpeed;
-
-  // Recycle obstacle
-  if (obstacle.x < -obstacle.width) {
-    obstacle.x = canvas.width + Math.random() * 200;
+  // Spawn new obstacles
+  nextObstacleSpawn--;
+  if (nextObstacleSpawn <= 0) {
+    spawnObstacle();
+    nextObstacleSpawn = 30 + Math.random() * 40; // Spawn every 60-100 frames
   }
 
-  // Collision detection
-  if (
-    player.x < obstacle.x + obstacle.width &&
-    player.x + player.width > obstacle.x &&
-    player.y < obstacle.y + obstacle.height &&
-    player.y + player.height > obstacle.y
-  ) {
-    gameOver = true;
+  // Move and remove obstacles
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    obstacles[i].x -= gameSpeed;
+    
+    // Remove if off-screen
+    if (obstacles[i].x < -obstacles[i].width) {
+      obstacles.splice(i, 1);
+      continue;
+    }
+
+    // Collision detection
+    if (
+      player.x < obstacles[i].x + obstacles[i].width &&
+      player.x + player.width > obstacles[i].x &&
+      player.y < obstacles[i].y + obstacles[i].height &&
+      player.y + player.height > obstacles[i].y
+    ) {
+      gameOver = true;
+    }
   }
 
-  // Increase difficulty slowly
-  gameSpeed += 0.002;
+  // Increase difficulty faster
+  gameSpeed += 0.0035;
 
   // Score = time survived
   score++;
@@ -129,8 +146,19 @@ function draw() {
   // Player
   ctx.fillRect(player.x, player.y, player.width, player.height);
 
-  // Obstacle
-  ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+  // Obstacles (triangle/triangles)
+  const triangleWidth = 35;
+  obstacles.forEach(obstacle => {
+    for (let i = 0; i < obstacle.type; i++) {
+      ctx.beginPath();
+      const offsetX = obstacle.x + (i * triangleWidth);
+      ctx.moveTo(offsetX + triangleWidth / 2, obstacle.y); // Top point
+      ctx.lineTo(offsetX, obstacle.y + obstacle.height); // Bottom left
+      ctx.lineTo(offsetX + triangleWidth, obstacle.y + obstacle.height); // Bottom right
+      ctx.closePath();
+      ctx.fill();
+    }
+  });
 
   // Score
   ctx.font = "16px monospace";
