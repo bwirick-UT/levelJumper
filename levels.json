@@ -1,0 +1,45 @@
+{
+  "levels": [
+    {
+      "number": 1,
+      "name": "Simple Staircase",
+      "platforms": [
+        { "x": 0, "y": "canvas.height - 20", "width": "canvas.width", "height": 20 },
+        { "x": 200, "y": "canvas.height - 200", "width": 100, "height": 10 },
+        { "x": 400, "y": "canvas.height - 400", "width": 100, "height": 10 },
+        { "x": 600, "y": "canvas.height - 600", "width": 100, "height": 10 },
+        { "x": 200, "y": "canvas.height - 600", "width": 100, "height": 10 }
+      ],
+      "coin": { "x": "250" , "y": "canvas.height - 635", "size": 8 },
+      "door": { "x": "canvas.width / 2 + 50", "y": "canvas.height - 460", "width": 80, "height": 120 }
+    },
+    {
+      "number": 2,
+      "name": "Zig-zag Pattern",
+      "platforms": [
+        { "x": 0, "y": "canvas.height - 20", "width": "canvas.width", "height": 20 },
+        { "x": "canvas.width / 2 - 90", "y": "canvas.height - 200", "width": 100, "height": 10 },
+        { "x": 500, "y": 450, "width": 100, "height": 10 },
+        { "x": 1075, "y": 350, "width": 100, "height": 10 },
+        { "x": "canvas.width - 210", "y": "canvas.height - 280", "width": 100, "height": 10 }
+      ],
+      "coin": { "x": "canvas.width - 160", "y": "canvas.height - 320", "size": 8 },
+      "door": { "x": "canvas.width - 1050 ", "y": "canvas.height - 800", "width": 80, "height": 120 }
+    },
+    {
+      "number": 3,
+      "name": "Challenging Tower",
+      "platforms": [
+        { "x": 0, "y": "canvas.height - 20", "width": "canvas.width", "height": 20 },
+        { "x": 200, "y": "canvas.height - 200", "width": 100, "height": 10 },
+        { "x": 400, "y": "canvas.height - 400", "width": 100, "height": 10 },
+        { "x": 600, "y": "canvas.height - 600", "width": 100, "height": 10 },
+        { "x": 1200, "y": "canvas.height - 600", "width": 100, "height": 10 },
+        { "x": 1600, "y": "canvas.height - 600", "width": 100, "height": 10 },
+        { "x": "canvas.width - 120", "y": "canvas.height - 750", "width": 100, "height": 10 }
+      ],
+      "coin": { "x": "canvas.width - 70", "y": 60, "size": 8 },
+      "door": { "x": "canvas.width / 2 - 45", "y": "canvas.height - 380", "width": 80, "height": 120 }
+    }
+  ]
+}
