@@ -44,6 +44,29 @@ document.addEventListener("keyup", e => {
 });
 
 // ====================
+// TOUCH CONTROLS (Mobile)
+// ====================
+
+document.addEventListener("touchstart", (e) => {
+  e.preventDefault(); // Prevent default touch behaviors
+  
+  // Jump on tap
+  if (!player.jumping) {
+    player.vy = -12;
+    player.jumping = true;
+  }
+  
+  // Restart on game over
+  if (gameOver) {
+    resetGame();
+  }
+});
+
+document.addEventListener("touchend", (e) => {
+  e.preventDefault();
+});
+
+// ====================
 // RESET GAME
 // ====================
 
