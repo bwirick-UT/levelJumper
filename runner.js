@@ -138,6 +138,9 @@ function update() {
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Disable image smoothing for crisp pixels
+  ctx.imageSmoothingEnabled = false;
+
   ctx.fillStyle = "black";
 
   // Ground
@@ -151,12 +154,17 @@ function draw() {
   obstacles.forEach(obstacle => {
     for (let i = 0; i < obstacle.type; i++) {
       ctx.beginPath();
-      const offsetX = obstacle.x + (i * triangleWidth);
+      const offsetX = Math.round(obstacle.x) + (i * triangleWidth);
       ctx.moveTo(offsetX + triangleWidth / 2, obstacle.y); // Top point
       ctx.lineTo(offsetX, obstacle.y + obstacle.height); // Bottom left
       ctx.lineTo(offsetX + triangleWidth, obstacle.y + obstacle.height); // Bottom right
       ctx.closePath();
       ctx.fill();
+      
+      // Add stroke for crisp edges
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
   });
 
