@@ -1,4 +1,4 @@
-import { resizeCanvas, canvas, ctx } from "./utils.js";
+import {canvas, ctx } from "./utils.js";
 
 // ====================
 // GAME STATE
@@ -47,9 +47,7 @@ document.addEventListener("keyup", e => {
 // TOUCH CONTROLS (Mobile)
 // ====================
 
-document.addEventListener("touchstart", (e) => {
-  e.preventDefault(); // Prevent default touch behaviors
-  
+canvas.addEventListener("touchstart", (e) => {
   // Jump on tap
   if (!player.jumping) {
     player.vy = -12;
@@ -60,11 +58,11 @@ document.addEventListener("touchstart", (e) => {
   if (gameOver) {
     resetGame();
   }
-});
+}, { passive: false });
 
-document.addEventListener("touchend", (e) => {
-  e.preventDefault();
-});
+canvas.addEventListener("touchend", (e) => {
+  // Handle end of touch
+}, { passive: false });
 
 // ====================
 // RESET GAME
