@@ -48,6 +48,8 @@ document.addEventListener("keyup", e => {
 // ====================
 
 canvas.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  
   // Jump on tap
   if (!player.jumping) {
     player.vy = -12;
@@ -58,11 +60,15 @@ canvas.addEventListener("touchstart", (e) => {
   if (gameOver) {
     resetGame();
   }
-}, { passive: false });
+}, false);
 
-canvas.addEventListener("touchend", (e) => {
-  // Handle end of touch
-}, { passive: false });
+document.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+}, false);
+
+document.addEventListener("touchend", (e) => {
+  e.preventDefault();
+}, false);
 
 // ====================
 // RESET GAME
